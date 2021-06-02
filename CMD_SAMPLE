@@ -1,0 +1,68 @@
+
+Case	V1.0.2.88(affect version)	V1.0.4.96(fixed version)
+
+1.  ./fragattack.py wlan0 ping-frag-sep	Pass	PASS
+2.  ./fragattack.py wlan0 ping-frag-sep --pn-per-qos	FAIL	FAIL
+
+3.  A-MSDU attack tests (§3 -- CVE-2020-24588)
+  ./fragattack.py wlan0 ping I,E –amsdu	FAIL	FAIL
+	./fragattack.py wlan0 amsdu-inject  	PASS	PASS
+	./fragattack.py wlan0 amsdu-inject-bad	PASS	PASS
+4. Mixed key attack tests (§4 -- CVE-2020-24587)
+   ./fragattack.py wlan0 ping I,F,BE,AE --pn-per-qos --rekey-req	PASS	PASS
+
+5. Cache attack tests (§5 -- CVE-2020-24586)	
+   ./fragattack.py wlan0 ping I,E,R,AE --full-recon	PASS	PASS
+	./fragattack.py wlan0 ping I,E,R,E --full-recon	PASS	PASS
+
+
+6. Mixed plain/encrypt attack (§6.3 -- CVE-2020-26147/26140/26143)	
+  ./fragattack.py wlan0 ping I,P,E(CVE-2020-26147)  	PASS	PASS
+	./fragattack.py wlan0 ping I,P(CVE-2020-26140)    	PASS	PASS
+	./fragattack.py wlan0 ping I,P,P(CVE-2020-26143)   	PASS	PASS
+
+7. Broadcast fragment attack tests (§6.4 -- CVE-2020-26145)	
+   ./fragattack.py wlan0 ping I,D,P --bcast-ra	PASS	PASS
+	./fragattack.py wlan0 ping D,BP --bcast-ra         	PASS	PASS
+
+
+8. A-MSDU EAPOL attack tests (§6.5 -- CVE-2020-26144)	
+  ./fragattack.py wlan0 eapol-amsdu I,P	PASS	PASS
+	./fragattack.py wlan0 eapol-amsdu-bad I,P     	PASS	PASS
+	./fragattack.py wlan0 eapol-amsdu BP	PASS	PASS
+	./fragattack.py wlan0 eapol-amsdu-bad BP	PASS	PASS
+
+9. A-MSDU attack tests (§3 -- CVE-2020-24588)	
+   ./fragattack.py wlan0 ping I,E --amsdu-fake	PASS	PASS
+	./fragattack.py wlan0 ping I,E --amsdu-fake --amsdu-spp	PASS	PASS
+
+10. Mixed key attack tests (§4 -- CVE-2020-24587)	
+  ./fragattack.py wlan0 ping I,F,BE,E --rekey-req	PASS	PASS
+	./fragattack.py wlan0 ping I,E,F,AE --rekey-req    	PASS	PASS
+	./fragattack.py wlan0 ping I,E,F,AE --rekey-plain --rekey-req	PASS	PASS
+	./fragattack.py wlan0 ping I,E,F,AE --rekey-early-install  --rekey-req	PASS	PASS
+	./fragattack.py wlan0 ping I,E,F,E --rekey-pl --rekey-req	PASS	PASS
+	./fragattack.py wlan0 ping I,F,BE,AE --freebsd  --rekey-req	PASS	PASS
+
+11. Cache attack tests (§5 -- CVE-2020-24586)	
+   ./fragattack.py wlan0 ping I,E,R,AE --freebsd --full-reconnect	PASS	PASS
+	./fragattack.py wlan0 ping I,E,R,AP --freebsd --full-reconnect	PASS	PASS
+	./fragattack.py wlan0 ping I,E,R,AP --full-reconnect	PASS	PASS
+
+12. Mixed plain/encrypt attack (§6.3 -- CVE-2020-26147)	
+   ./fragattack.py wlan0 ping I,E,E --amsdu	PASS	PASS
+	./fragattack.py wlan0 linux-plain 3  	PASS	PASS
+  
+13.  Broadcast fragment attack tests (extensions of §6.4)	
+   ./fragattack.py wlan0 ping I,P --bcast-ra	PASS	PASS
+	./fragattack.py wlan0 ping BP --bcast-ra  	PASS	PASS
+	./fragattack.py wlan0 ping BP --bcast-ra --bcast-dst	PASS	PASS
+	./fragattack.py wlan0 ping BP --bcast-dst	PASS	PASS
+	./fragattack.py wlan0 eapfrag BP,BP     	PASS	PASS
+  
+14. AP forwards EAPOL attack tests (§6.6 -- CVE-2020-26139)
+    ./fragattack.py wlan0 eapol-inject 00:11:22:33:44:55	PASS	PASS
+    
+15. No fragmentation support attack test (§6.8 -- CVE-2020-26142)	
+  ./fragattack.py wlan0 ping I,D,E	PASS	PASS
+	./fragattack.py wlan0 ping I,E,D	PASS	PASS
